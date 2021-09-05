@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# compiled output
+appweb/dist
+appweb/tmp
+appweb/out-tsc
+appweb/www
+# dependencies
+appweb/node_modules
