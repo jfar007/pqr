@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MensajeRespuesta {
+public class MensajeRespuesta<T> {
 	private String message;
 	private String url;
 	private String error = "";
-	private List<Object> objects = new ArrayList<Object>();
+	private List<T> objects = new ArrayList<T>();
 
 	
-	public MensajeRespuesta(String message, String url, List<Object> objects) {
+	public MensajeRespuesta(String message, String url, List<T> objects) {
 		this.message = message;
 		this.url = url;
 		this.objects = objects;
@@ -51,11 +51,11 @@ public class MensajeRespuesta {
 		this.error = error;
 	}
 
-	public List<Object> getObjects() {
+	public List<T> getObjects() {
 		return objects;
 	}
 
-	public void setObjects(List<Object> objects) {
+	public void setObjects(List<T> objects) {
 		this.objects = objects;
 	}
 	

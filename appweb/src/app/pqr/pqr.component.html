@@ -1,0 +1,42 @@
+
+<div class="table-responsive">
+    <div class="row">
+        <div class="col-5 mb-1">
+            <div class="md-form w-100 m-0">
+                <input class="form-control m-0" #filtar (keyup)="buscarpqr(filtar.value)" type="search" placeholder="Buscar" mdbInput>
+            </div>
+        </div>
+    </div>
+    <table mdbTable class="mattable table table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th class="mat-header-cell cursor" *ngFor="let head of headElements | keyvalue: originalOrder" scope="col" [mdbTableSort]="registros" [sortBy]="head.key">{{ head.value }}
+                    <mdb-icon fas icon="sort"></mdb-icon>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let el of registros; let i = index">
+                <tr >
+                    <td class="align-middle mat-cell">
+                        <span class="indigo-text m-1 cursor"  matTooltip="Ver pqr">
+                            <i class="fa fa-info-circle"></i>
+                        </span>
+                        <span class="blue-text m-1 cursor"  matTooltip="Crear Reclamo">
+                            <i class="fa fa-plus-circle "></i>
+                        </span>
+                    </td>
+                    <td class="mat-cell">{{el.id}}</td>
+                    <td class="mat-cell">{{el.fecha_registro}}</td>
+                    <ng-container *ngFor="let itemesrs of tipo">
+                        <td *ngIf="itemesrs.id == el.tipo">{{itemesrs.nombre}}</td>
+                    </ng-container>
+                    <td class="mat-cell">{{el.descripcion}}</td>
+                    <ng-container *ngFor="let iteme of estados">
+                        <td *ngIf="iteme.id == el.estado">{{iteme.nombre}}</td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>
