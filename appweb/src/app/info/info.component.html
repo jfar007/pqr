@@ -1,1 +1,150 @@
-<p>Nueva PQR</p>
+<h2 *ngIf="datos != undefined" mat-dialog-title>
+
+    <ng-container *ngFor="let itemesrs of tipo">
+        <p class="ml-3 my-0" *ngIf="itemesrs.id == datos.tipo">{{itemesrs.nombre + ' ' + datos.id}}</p>
+    </ng-container>
+</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="mdc-card element-card" *ngIf="datos != undefined">
+        <div class="container">
+            <div class="row">
+                <div class="col s4">
+                    <span>Descripcion:</span>
+                    <input type="text" value="{{datos.descripcion}}" disabled>
+                </div>
+                <div class="col s4">
+                    <span>Tipo:</span>
+                    <ng-container *ngFor="let itemesrs of tipo">
+                        <input type="text" *ngIf="itemesrs.id == datos.tipo" value="{{itemesrs.nombre}}" disabled>
+                    </ng-container>
+
+                </div>
+                <div class="col s4">
+                    <span>Estado:</span>
+                    <ng-container *ngFor="let itemesrs of estados">
+                        <input type="text"  *ngIf="itemesrs.id == datos.estado" value="{{itemesrs.nombre}}" disabled>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="datos.respuesta != undefined">
+            <ng-container >
+                <p class="ml-3 my-0" >Respuesta</p>
+            </ng-container>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col s4">
+                        <span>Respuesta:</span>
+                        <input type="text" value="{{datos.respuesta.respuesta}}" disabled>
+                    </div>
+                    <div class="col s4">
+                        <span>Usuario responde:</span>
+                        <input type="text" value="{{datos.respuesta.usuario_registra}}" disabled>
+                    </div>
+                    <div class="col s4">
+                        <span>Fecha respuesta:</span>
+                        <input type="text" value="{{datos.respuesta.fecha_registro}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div  *ngIf="datos.relacionado != undefined">
+            <hr>
+            <ng-container *ngFor="let itemesrs of tipo">
+                <p class="ml-3 my-0" *ngIf="itemesrs.id == datos.relacionado.tipo">{{itemesrs.nombre + ' ' + datos.relacionado.id}}</p>
+            </ng-container>
+            <div class="container">
+                <div class="row">
+                    <div class="col s4">
+                        <span>Descripcion:</span>
+                        <input type="text" value="{{datos.relacionado.descripcion}}" disabled>
+                    </div>
+                    <div class="col s4">
+                        <span>Tipo:</span>
+                        <ng-container *ngFor="let itemesrs of tipo">
+                            <input type="text" *ngIf="itemesrs.id == datos.relacionado.tipo" value="{{itemesrs.nombre}}" disabled>
+                        </ng-container>
+                    </div>
+                    <div class="col s4">
+                        <span>Estado:</span>
+                        <ng-container *ngFor="let itemesrs of estados">
+                            <input type="text"  *ngIf="itemesrs.id == datos.relacionado.estado" value="{{itemesrs.nombre}}" disabled>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="datos.relacionado.respuesta != undefined" >
+                <ng-container >
+                    <p class="ml-3 my-0" >Respuesta</p>
+                </ng-container>
+    
+                <div class="container">
+                    <div class="row">
+                        <div class="col s4">
+                            <span>Respuesta:</span>
+                            <input type="text" value="{{datos.relacionado.respuesta.respuesta}}" disabled>
+                        </div>
+                        <div class="col s4">
+                            <span>Usuario responde:</span>
+                            <input type="text" value="{{datos.relacionado.respuesta.usuario_registra}}" disabled>
+                        </div>
+                        <div class="col s4">
+                            <span>Fecha respuesta:</span>
+                            <input type="text" value="{{datos.relacionado.respuesta.fecha_registro}}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <!-- <table mdbTable class="mattable table table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="mat-header-cell">Ver</th>
+                <th class="mat-header-cell cursor" *ngFor="let head of thead | keyvalue: originalOrder" scope="col" [mdbTableSort]="documentos" [sortBy]="head.key">{{ head.value }}
+                    <mdb-icon fas icon="sort"></mdb-icon>
+                </th>
+                <th scope="col" class="mat-header-cell">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container  *ngFor="let fila of documentos">
+                <tr *ngIf="fila.riesgo" class="blue lighten-4"><td colspan="5">{{fila.riesgo}}</td></tr>
+                <tr>
+                    <td class="align-middle mat-cell">
+                        <a *ngIf="fila.urlfile" [href]="urldocumentos+fila.urlfile" target="_blank" rel="noopener noreferrer">
+                            <span class="rojo m-1 cursor" matTooltip="Ver Documento">
+                                <i class="fas fa-file-pdf fa-1-5x"></i>
+                            </span>
+                        </a>
+                    </td>
+                    <td class="mat-cell">{{ fila.nombre }}</td>
+                    <td class="mat-cell">{{ fila.vencimiento }}</td>
+                    <td class="align-middle mat-cell">
+                        <i class="fa fa-flag fa-1-5x" [ngClass]="{'rojo': fila.estado == 4 || fila.estado == 2,'green-text': fila.estado == 3, 'text-warning' : fila.estado == 1}"></i>
+                    </td>
+                    <td class="align-middle mat-cell">
+                        <span *ngIf="fila.estado == 1">
+                            <i class="fa fa-check mr-2 p-1 cursor aprobar border border-green rounded-circle" (click)="cambioestadodoc(3, fila.idfile)" matTooltip="Aprobar documento"></i>
+                            <i class="fa fa-times-circle p-1 cursor rojo border border-warning rounded-circle" (click)="cambioestadodoc(2, fila.idfile)" matTooltip="Rechazar documento"></i>
+                        </span>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table> -->
+</mat-dialog-content>
+<mat-dialog-actions align="star">
+    <button type="button" [mat-dialog-close]="cerrar" mdbBtn color="primary" class="waves-light" size="sm" mdbWavesEffect>Cerrar</button>
+</mat-dialog-actions>

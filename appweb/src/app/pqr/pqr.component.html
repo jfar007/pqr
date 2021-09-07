@@ -1,34 +1,77 @@
+<div class="mdc-card element-card earth">
+    <div class="mdc-card__media mdc-theme--primary-bg mdc-theme--on-primary">
+        <div class="mdc-card__media-content">
+            <h2 class="mdc-typography--headline4">Gestion de PQRs</h2>
+            <h5 class="mdc-typography--headline6">Crear {{ currentTipo == "3" ? 'Reclamo'  : 'Petición o Queja' }} </h5>
+            <h5 *ngIf="currentTipo == '3'" class="mdc-typography--headline6">Radicado # {{ currentPQR.id }} </h5>
+        </div>
+    </div>
+    <div>
+        <form [formGroup]="pqrForm" (ngSubmit)="crearPQR()">
+            <div class="row">
+                <label class="col l12">Tipo: </label>
+                <div class="w-100"></div>
+                <select   class="col s4" (change)="cambioTipo()"  formControlName="tipo" required>
+                    <option   value="1">Petición</option>
+                    <option   value="2">Queja</option>
+                    <option    value="3">Reclamo</option>
+                  </select>
+                  <div class="w-100"></div>
+                <div *ngIf="(tipo?.dirty || tipo?.touched)" class="col l12 alert alert-danger">
+                    <div *ngIf="tipo?.errors?.required">
+                        Tipo es requerido.
+                    </div>
+                </div>
+
+                <div class="w-100"></div>
+                <label  class="col s12" for="">Descripción: </label>
+                <input  class="col s12" id="" type="text" formControlName="descripcion"  class="form-control" required>
+                <div class="w-100"></div>
+                <div *ngIf="(descripcion?.dirty || descripcion?.touched)" class=" col s12alert alert-danger">
+                        <div *ngIf="descripcion?.errors?.required">
+                            Descripción es requerida.
+                        </div>
+                </div>
+                <div class="w-100"></div>
+                <button type="submit" [disabled]="!pqrForm.valid">Crear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <div class="table-responsive">
     <div class="row">
         <div class="col-5 mb-1">
             <div class="md-form w-100 m-0">
-                <input class="form-control m-0" #filtar (keyup)="buscarpqr(filtar.value)" type="search" placeholder="Buscar" mdbInput>
+                <input class="form-control m-0" #filtar (keyup)="buscarpqr(filtar.value)" type="search"
+                    placeholder="Buscar" mdbInput>
             </div>
         </div>
     </div>
     <table mdbTable class="mattable table table-striped table-bordered table-sm">
         <thead class="thead-dark">
             <tr>
-                <th class="mat-header-cell cursor" *ngFor="let head of headElements | keyvalue: originalOrder" scope="col" [mdbTableSort]="registros" [sortBy]="head.key">{{ head.value }}
+                <th class="mat-header-cell cursor" *ngFor="let head of headElements | keyvalue: originalOrder"
+                    scope="col" [mdbTableSort]="registros" [sortBy]="head.key">{{ head.value }}
                     <mdb-icon fas icon="sort"></mdb-icon>
                 </th>
             </tr>
         </thead>
         <tbody>
             <ng-container *ngFor="let el of registros; let i = index">
-                <tr >
+                <tr>
                     <td class="align-middle mat-cell">
-                        <span class="indigo-text m-1 cursor"  matTooltip="Ver pqr">
-                            <i class="fa fa-info-circle"></i>
-                        </span>
-                        <span class="blue-text m-1 cursor"  matTooltip="Crear Reclamo">
-                            <i class="fa fa-plus-circle "></i>
+                        <div class="indigo-text m-1 cursor" (click)="ver_pqr(el)" matTooltip="Ver pqr">
+                            <span>Ver PQR</span>
+                        </div>
+                        <span *ngIf="el.tipo == 1 || el.tipo == 2" class="blue-text m-1 cursor" (click)="crearReclamo(el)" matTooltip="Crear Reclamo">
+                            <span>+</span>
                         </span>
                     </td>
                     <td class="mat-cell">{{el.id}}</td>
                     <td class="mat-cell">{{el.fecha_registro}}</td>
-                    <ng-container *ngFor="let itemesrs of tipo">
+                    <ng-container *ngFor="let itemesrs of tipos">
                         <td *ngIf="itemesrs.id == el.tipo">{{itemesrs.nombre}}</td>
                     </ng-container>
                     <td class="mat-cell">{{el.descripcion}}</td>

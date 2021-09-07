@@ -8,9 +8,9 @@ export class Interceptorpqr implements HttpInterceptor {
   constructor(private pqr: PqrService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log(req);
-    // if (req.body && req.body.userId === undefined && this.pqr.current_user) {
+    if (req.body && req.body.userId === undefined && this.pqr.current_user) {
       req = req.clone({ headers: req.headers.set('userId', this.pqr.current_user) });
-    // }
+    }
     return next.handle(req);
   }
-} 
+}
